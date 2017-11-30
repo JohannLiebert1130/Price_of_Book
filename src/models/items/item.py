@@ -1,19 +1,25 @@
 import re
+import uuid
+
 import requests
 from bs4 import BeautifulSoup
 
 from src.common.database import Database
 import src.models.items.constants as ItemConstants
+from src.models.stores.store import Store
 
 
 class Item(object):
-    def __init__(self, name, url, store):
-        self.store = store
+    def __init__(self, name, url, _id=None):
         self.url = url
         self.name = name
+        store = Store.find_by_url(url)
+        print(store)
         tag_name = store.tag_name
         query = store.query
+        print(tag_name, query)
         self.price = self.load_price(tag_name, query)
+        self._id = uuid.uuid4().hex if _id is None else _id
 
     def __repr__(self):
         return "<Item {} with URL {}>".format(self.name, self.url)
@@ -33,7 +39,7 @@ class Item(object):
 
     def json(self):
         return {
+            "_id": self._id,
             "name": self.name,
-            "url": self.url,
-            "store": self.store
+            "url": self.url
         }

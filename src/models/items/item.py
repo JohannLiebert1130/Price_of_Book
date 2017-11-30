@@ -14,25 +14,26 @@ class Item(object):
         self.url = url
         self.name = name
         store = Store.find_by_url(url)
-        print(store)
-        tag_name = store.tag_name
-        query = store.query
-        print(tag_name, query)
-        self.price = self.load_price(tag_name, query)
+        self.tag_name = store.tag_name
+        self.query = store.query
+        self.price = None
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def __repr__(self):
         return "<Item {} with URL {}>".format(self.name, self.url)
 
-    def load_price(self, tag_name, query):
-        # <span id="priceblock_ourprice" class="a-size-medium a-color-price">$3,299.99</span>
+    def load_price(self):
         request = requests.get(self.url)
         content = request.content
         soup = BeautifulSoup(content, "html.parser")
-        element = soup.find(tag_name, query)
+        element = soup.find(self.tag_name, self.query)
         string_price = element.text.strip()
 
-        return string_price
+        pattern = re.compile("(\d+.\d+)")
+        match = pattern.search(string_price)
+        self.price = float(match.group())
+
+        return self.price
 
     def save_to_mongo(self):
         Database.insert(ItemConstants.COLLECTION, self.json())
@@ -43,3 +44,7 @@ class Item(object):
             "name": self.name,
             "url": self.url
         }
+
+    @classmethod
+    def get_by_id(cls, item_id):
+        return cls(**Database.find_one(ItemConstants.COLLECTION, {"_id": item_id}))

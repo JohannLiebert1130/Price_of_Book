@@ -31,3 +31,31 @@ class Alert(object):
                 "text": "We've found a deal! ({}).".format(self.item.url)
             }
         )
+
+    @classmethod
+    def find_needing_update(cls, minute_since_update=AlertConstants.ALERT_TIMEOUT):
+        last_updated_limit = datetime.datetime.utcnow() - datetime.timedelta(minutes=minute_since_update)
+        return (cls(**elem) for elem in Database.find(AlertConstants.COLLECTION,
+                                                      {"last_checked": {"$lte": last_updated_limit}}))
+
+    def save_to_mongo(self):
+        Database.insert(AlertConstants.COLLECTION, self.json())
+
+    def json(self):
+        return {
+            "_id": self._id,
+            "price_limit": self.price_limit,
+            "last_checked": self.last_checked,
+            "user_email": self.user_email,
+            "item_id": self.item._id
+        }
+
+    def load_item_price(self):
+        self.item.load_price()
+        self.last_checked = datetime.datetime.utcnow()
+        self.save_to_mongo()
+        return self.item.price
+
+    def send_email_if_price_reached(self):
+        if self.item.price < self.price_limit:
+            self.send()

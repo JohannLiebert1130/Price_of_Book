@@ -74,8 +74,8 @@ class Store(object):
             raise StoreErrors.StoreNotFoundException("The URL prefix used to find the store"
                                                      " didn't give us any results!")
 
+
 # client = pymongo.MongoClient(Database.URI)
 # Database.DATABASE = client['fullstack']
-# store = Store("dangdang", "http://product.dangdang.com", "p", {"id": "dd-price"})
-#
-# store.save_to_mongo()
+# Store("dangdang", "http://product.dangdang.com", "p", {"id": "dd-price"}).save_to_mongo()
+# Store("AmazonCN", "https://www.amazon.cn/", "span", {"class": "a-size-base a-color-price a-color-price"}).save_to_mongo()

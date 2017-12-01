@@ -1,5 +1,7 @@
 import uuid
 import datetime
+
+import pymongo
 import requests
 from src.common.database import Database
 import src.models.alerts.constants as AlertConstants
@@ -59,3 +61,14 @@ class Alert(object):
     def send_email_if_price_reached(self):
         if self.item.price < self.price_limit:
             self.send()
+
+    @classmethod
+    def find_by_user_email(cls, user_email):
+        return [cls(**elem) for elem in Database.find(AlertConstants.COLLECTION,
+                                                      {'user_email': user_email})]
+
+# client = pymongo.MongoClient(Database.URI)
+# Database.DATABASE = client['fullstack']
+# Alert("fuck@shit.com",10,"4e09a95b343d4c608685631c27e32ec0").save_to_mongo()
+# Alert("john@john.com",10,"cd161ff10d7c471a90345c28e8711986").save_to_mongo()
+# Alert("fuck@shit.com",10,"b5702bd52339475c808b6287773f09b1").save_to_mongo()

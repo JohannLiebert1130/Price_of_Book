@@ -25,3 +25,7 @@ class Database(object):
     @staticmethod
     def update(collection, query, data):
         Database.DATABASE[collection].update(query, data, upsert=True)
+
+
+Database.initialize()
+Database.find_one("users", {"email": "fuck@shit.com"})

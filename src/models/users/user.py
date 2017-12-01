@@ -1,8 +1,12 @@
 import uuid
 
+import pymongo
+
 from src.common.database import Database
 from src.common.utils import Utils
+from src.models.alerts.alert import Alert
 from src.models.users import errors
+import src.models.users.constants as UserConstants
 
 
 class User(object):
@@ -24,7 +28,7 @@ class User(object):
         :return: True if valid, False otherwise
         """
 
-        user_data = Database.find_one('users', {'email': email})  # password in sha512->pbkdf2_sha512
+        user_data = Database.find_one(UserConstants.COLLECTION, {'email': email})  # password in sha512->pbkdf2_sha512
         if user_data is None:
             raise errors.UserNotExistsError("Your user is not exist.")
             return False
@@ -44,7 +48,7 @@ class User(object):
         :return: True if registered successfully, or False otherwise (exceptions can also be raised)
         """
 
-        user_data = Database.find_one("users", {"email": email})
+        user_data = Database.find_one(UserConstants.COLLECTION, {"email": email})
 
         if user_data is not None:
             # Tell user they are already registered
@@ -65,5 +69,20 @@ class User(object):
         }
 
     def save_to_db(self):
-        Database.insert(collection='users',
+        Database.insert(collection=UserConstants.COLLECTION,
                         query=self.json())
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls(**Database.find_one(UserConstants.COLLECTION, {'email': email}))
+
+    def get_alerts(self):
+        return Alert.find_by_user_email(self.email)
+
+# client = pymongo.MongoClient(Database.URI)
+# Database.DATABASE = client['fullstack']
+# # User.register_user("fuck@shit.com", "fuckshit")
+# # User.register_user("john@john.com", "john")
+# user = User.find_by_email("fuck@shit.com")
+# bool = User.is_valid_login("fuck@shit.com", "fckshit")
+# print(bool)

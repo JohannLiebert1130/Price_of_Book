@@ -1,6 +1,7 @@
 import re
 import uuid
 
+import pymongo
 import requests
 from bs4 import BeautifulSoup
 
@@ -48,3 +49,9 @@ class Item(object):
     @classmethod
     def get_by_id(cls, item_id):
         return cls(**Database.find_one(ItemConstants.COLLECTION, {"_id": item_id}))
+
+# client = pymongo.MongoClient(Database.URI)
+# Database.DATABASE = client['fullstack']
+# Item("WorldWithoutEnd", "http://product.dangdang.com/25158113.html").save_to_mongo()
+# Item("ComputerNetworking", "https://www.amazon.cn/dp/B007JFRQ0G").save_to_mongo()
+# Item("AmericanGods", "http://product.dangdang.com/24535115.html").save_to_mongo()

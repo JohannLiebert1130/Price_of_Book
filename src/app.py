@@ -18,7 +18,7 @@ def init_db():
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.jinja2')
 
 
 app.register_blueprint(user_blueprint, url_prefix="/users")

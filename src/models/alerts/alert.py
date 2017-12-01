@@ -68,8 +68,12 @@ class Alert(object):
         return [cls(**elem) for elem in Database.find(AlertConstants.COLLECTION,
                                                       {'user_email': user_email})]
 
-# client = pymongo.MongoClient(Database.URI)
-# Database.DATABASE = client['fullstack']
-# Alert("fuck@shit.com",10,"4e09a95b343d4c608685631c27e32ec0").save_to_mongo()
-# Alert("john@john.com",10,"cd161ff10d7c471a90345c28e8711986").save_to_mongo()
-# Alert("fuck@shit.com",10,"b5702bd52339475c808b6287773f09b1").save_to_mongo()
+    @classmethod
+    def find_by_id(cls, alert_id):
+        return cls(**Database.find_one(AlertConstants.COLLECTION, {'_id': alert_id}))
+
+        # client = pymongo.MongoClient(Database.URI)
+        # Database.DATABASE = client['fullstack']
+        # Alert("fuck@shit.com",10,"4e09a95b343d4c608685631c27e32ec0").save_to_mongo()
+        # Alert("john@john.com",10,"cd161ff10d7c471a90345c28e8711986").save_to_mongo()
+        # Alert("fuck@shit.com",10,"b5702bd52339475c808b6287773f09b1").save_to_mongo()

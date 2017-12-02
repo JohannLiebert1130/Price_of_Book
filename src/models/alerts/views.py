@@ -12,27 +12,35 @@ def index():
     return "This is the alerts index"
 
 
-@alert_blueprint.route("/new", methods=["GET", "POST"])
+@alert_blueprint.route('/new', methods=['GET', 'POST'])
 @user_decorators.requires_login
 def create_alert():
     if request.method == 'POST':
         name = request.form['name']
         url = request.form['url']
-        price_limit = request.form['price_limit']
+        price_limit = float(request.form['price_limit'])
 
         item = Item(name, url)
         item.save_to_mongo()
 
         alert = Alert(session['email'], price_limit, item._id)
-        alert.load_item_price()  # this already save to MongoDB
+        alert.load_item_price()  # This already saves to MongoDB
 
-    return render_template("alerts/new_alert.jinja2")
+    # What happens if it's a GET request
+    return render_template("alerts/new_alert.jinja2")  # Send the user an error if their login was invalid
 
 
 @alert_blueprint.route("/deactivate/<string:alert_id>")
 @user_decorators.requires_login
 def deactivate_alert(alert_id):
     Alert.find_by_id(alert_id).deactivate()
+    return redirect(url_for('users.user_alerts'))
+
+
+@alert_blueprint.route("/delete/<string:alert_id>")
+@user_decorators.requires_login
+def delete_alert(alert_id):
+    Alert.find_by_id(alert_id).delete()
     return redirect(url_for('users.user_alerts'))
 
 

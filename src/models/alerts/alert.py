@@ -38,7 +38,8 @@ class Alert(object):
     def find_needing_update(cls, minute_since_update=AlertConstants.ALERT_TIMEOUT):
         last_updated_limit = datetime.datetime.utcnow() - datetime.timedelta(minutes=minute_since_update)
         return (cls(**elem) for elem in Database.find(AlertConstants.COLLECTION,
-                                                      {"last_checked": {"$lte": last_updated_limit}}))
+                                                      {"last_checked":
+                                                           {"$lte": last_updated_limit}}))
 
     def save_to_mongo(self):
         Database.update(AlertConstants.COLLECTION, {"_id": self._id}, self.json())
@@ -76,6 +77,9 @@ class Alert(object):
     def deactivate(self):
         self.active = False
         self.save_to_mongo()
+
+    def delete(self):
+        Database.remove(AlertConstants.COLLECTION, {'_id': self._id})
 
     def activate(self):
         self.active = True

@@ -40,17 +40,6 @@ class Store(object):
 
     @classmethod
     def get_by_url_prefix(cls, url_prefix):
-        """
-        h -> ?
-        ht -> ?
-        htt -> ?
-        .
-        .
-        .
-        http://www.john -> Store("John Lewis")
-        :param url_prefix:
-        :return:
-        """
         store_data = Database.find_one(StoreConstants.COLLECTION, {"url_prefix": {"$regex": '^{}'.format(url_prefix)}})
         if store_data is not None:
             return cls(**store_data)

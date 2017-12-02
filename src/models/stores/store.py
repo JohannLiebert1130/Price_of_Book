@@ -63,6 +63,9 @@ class Store(object):
             raise StoreErrors.StoreNotFoundException("The URL prefix used to find the store"
                                                      " didn't give us any results!")
 
+    @classmethod
+    def all(cls):
+        return [cls(**elem) for elem in Database.find(StoreConstants.COLLECTION, {})]
 
 # client = pymongo.MongoClient(Database.URI)
 # Database.DATABASE = client['fullstack']

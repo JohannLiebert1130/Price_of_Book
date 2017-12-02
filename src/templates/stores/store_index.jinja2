@@ -13,7 +13,9 @@
                     <strong>{{ store.url_prefix }}</strong></p></a>
         {% endfor %}
     </div>
-    <a class="btn btn-success" href="{{ url_for('stores.create_store') }}">
-        <span class="glyphicon glyphicon-plus"></span> Create New
-    </a>
+    {% if session['email'] in config.ADMINS %}
+        <a class="btn btn-success" href="{{ url_for('stores.create_store') }}">
+            <span class="glyphicon glyphicon-plus"></span> Create New
+        </a>
+    {% endif %}
 {% endblock %}

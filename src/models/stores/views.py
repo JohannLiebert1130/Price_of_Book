@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, json
+from flask import Blueprint, render_template, request, redirect, url_for, json, session
 
 from src.models.stores.store import Store
 
@@ -7,6 +7,7 @@ store_blueprint = Blueprint('stores', __name__)
 
 @store_blueprint.route("/")
 def index():
+    print(session['email'])
     stores = Store.all()
     return render_template('stores/store_index.jinja2', stores=stores)
 

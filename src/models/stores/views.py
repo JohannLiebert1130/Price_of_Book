@@ -24,7 +24,7 @@ def edit_store(store_id):
         store.url_prefix = request.form['url_prefix']
         store.tag_name = request.form['tag_name']
         store.query = json.loads(request.form['query'])
-
+        print(store.query)
         store.save_to_mongo()
 
         return redirect(url_for('.index'))

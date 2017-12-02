@@ -49,7 +49,8 @@ class Alert(object):
             "price_limit": self.price_limit,
             "last_checked": self.last_checked,
             "user_email": self.user_email,
-            "item_id": self.item._id
+            "item_id": self.item._id,
+            "active": self.active
         }
 
     def load_item_price(self):
@@ -72,8 +73,16 @@ class Alert(object):
     def find_by_id(cls, alert_id):
         return cls(**Database.find_one(AlertConstants.COLLECTION, {'_id': alert_id}))
 
-        # client = pymongo.MongoClient(Database.URI)
-        # Database.DATABASE = client['fullstack']
-        # Alert("fuck@shit.com",10,"4e09a95b343d4c608685631c27e32ec0").save_to_mongo()
-        # Alert("john@john.com",10,"cd161ff10d7c471a90345c28e8711986").save_to_mongo()
-        # Alert("fuck@shit.com",10,"b5702bd52339475c808b6287773f09b1").save_to_mongo()
+    def deactivate(self):
+        self.active = False
+        self.save_to_mongo()
+
+    def activate(self):
+        self.active = True
+        self.save_to_mongo()
+
+    # client = pymongo.MongoClient(Database.URI)
+    # Database.DATABASE = client['fullstack']
+    # Alert("fuck@shit.com",10,"4e09a95b343d4c608685631c27e32ec0").save_to_mongo()
+    # Alert("john@john.com",10,"cd161ff10d7c471a90345c28e8711986").save_to_mongo()
+    # Alert("fuck@shit.com",10,"b5702bd52339475c808b6287773f09b1").save_to_mongo()

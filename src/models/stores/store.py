@@ -67,6 +67,9 @@ class Store(object):
     def all(cls):
         return [cls(**elem) for elem in Database.find(StoreConstants.COLLECTION, {})]
 
+    def delete(self):
+        Database.remove(StoreConstants.COLLECTION, {'_id': self._id})
+
 # client = pymongo.MongoClient(Database.URI)
 # Database.DATABASE = client['fullstack']
 # Store("dangdang", "http://product.dangdang.com", "p", {"id": "dd-price"}).save_to_mongo()

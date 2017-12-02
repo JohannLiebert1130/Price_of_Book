@@ -18,9 +18,18 @@ def store_page(store_id):
 
 @store_blueprint.route('/edit/<string:store_id>', methods=['GET', 'POST'])
 def edit_store(store_id):
+    store = Store.get_by_id(store_id)
     if request.method == 'POST':
-        pass
-    return 'Edit store page'
+        store.name = request.form['name']
+        store.url_prefix = request.form['url_prefix']
+        store.tag_name = request.form['tag_name']
+        store.query = json.loads(request.form['query'])
+
+        store.save_to_mongo()
+
+        return redirect(url_for('.index'))
+
+    return render_template('stores/edit_store.jinja2', store=store)
 
 
 @store_blueprint.route('/delete/<string:store_id>', methods=['GET'])

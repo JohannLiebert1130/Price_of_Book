@@ -22,7 +22,8 @@ class Store(object):
         return {
             "_id": self._id,
             "name": self.name,
-            "url_prefix": self.url_prefix
+            "url_prefix": self.url_prefix,
+            "crawler_id": self.crawler._id
         }
 
     @classmethod

@@ -11,13 +11,23 @@ from src.models.stores.store import Store
 
 
 class Item(object):
-    def __init__(self, name, url, price=None, _id=None):
+    def __init__(self, name, url, price=None, img_src=None, description=None,_id=None):
         self.url = url
         self.name = name
         store = Store.find_by_url(url)
+
         self.price_tag_name = store.crawler.price_tag_name
         self.price_query = store.crawler.price_query
         self.price = price
+
+        self.image_tag_name = store.crawler.image_tag_name
+        self.image_query = store.crawler.image_query
+        self.img_src = img_src
+
+        self.desc_tag_name = store.crawler.description_tag_name
+        self.desc_query = store.crawler.description_query
+        self.description = description
+
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def __repr__(self):
@@ -41,9 +51,18 @@ class Item(object):
         content = request.content
         soup = BeautifulSoup(content, "html.parser")
         element = soup.find(self.image_tag_name, self.image_query)
-        self.image = element.text.strip()
+        self.img_src = element['src']
 
-        return self.image
+        return self.img_src
+
+    def load_description(self):
+        request = requests.get(self.url)
+        content = request.content
+        soup = BeautifulSoup(content, "html.parser")
+        element = soup.find(self.desc_tag_name, self.desc_query)
+        self.description = element.text.strip()
+
+        return self.description
 
     def save_to_mongo(self):
         Database.update(ItemConstants.COLLECTION, {"_id": self._id}, self.json())

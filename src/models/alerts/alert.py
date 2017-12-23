@@ -83,6 +83,7 @@ class Alert(object):
 
     def delete(self):
         Database.remove(AlertConstants.COLLECTION, {'_id': self._id})
+        self.item.delete()
 
     def activate(self):
         self.active = True

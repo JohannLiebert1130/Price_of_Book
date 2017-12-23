@@ -60,6 +60,9 @@ class Item(object):
     def get_by_id(cls, item_id):
         return cls(**Database.find_one(ItemConstants.COLLECTION, {"_id": item_id}))
 
+    def delete(self):
+        Database.remove(ItemConstants.COLLECTION, {'_id': self._id})
+
 # client = pymongo.MongoClient(Database.URI)
 # Database.DATABASE = client['fullstack']
 # Item("WorldWithoutEnd", "http://product.dangdang.com/25158113.html").save_to_mongo()

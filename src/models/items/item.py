@@ -11,16 +11,13 @@ from src.models.stores.store import Store
 
 
 class Item(object):
-    def __init__(self, name, url, price=None, image=None, _id=None):
+    def __init__(self, name, url, price=None, _id=None):
         self.url = url
         self.name = name
         store = Store.find_by_url(url)
-        self.price_tag_name = store.price_tag_name
-        self.price_query = store.price_query
-        self.image_tag_name = store.image_tag_name
-        self.image_query = store.image_query
+        self.price_tag_name = store.crawler.price_tag_name
+        self.price_query = store.crawler.price_query
         self.price = price
-        self.image = image
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def __repr__(self):

@@ -16,19 +16,48 @@
                        aria-describedby="storeURLPrefixHelp">
                 <span id="storeURLPrefixHelp" class="help-block">What characters do URLs of all items in this online store start with?</span>
             </div>
-            <div class="form-group">
-                <label for="tag_name">Tag name</label>
-                <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="tag_name"
-                       value="span"
-                       aria-describedby="storeTagNameHelp">
-                <span id="storeTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item price? (usually <code>span</code>)</span>
+             <div class="form-group">
+                <label for="price_tag_name">Price Tag name</label>
+                <input type="text" class="form-control" id="price_tag_name" name="price_tag_name" placeholder="price_tag_name"
+                       value="img" aria-describedby="storePriceTagNameHelp">
+                <span id="storePriceTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item price? (usually <code>span</code>)</span>
             </div>
+
             <div class="form-group">
-                <label for="query">Search Query</label>
-                <input type="text" class="form-control" id="query" name="query" placeholder='{"id" : "price-now"}'
-                       value='{"id":"price-now"}'
-                       aria-describedby="QueryHelpBlock">
-                <span id="QueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with price? Remember to use
+                <label for="price_query">Search Price Query</label>
+                <input type="text" class="form-control" id="price_query" name="price_query" placeholder='{"id" : "price-now"}'
+                       aria-describedby="PriceQueryHelpBlock">
+                <span id="PriceQueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with price? Remember to use
+                double quotation marks! </span>
+            </div>
+
+            <div class="form-group">
+                <label for="image_tag_name">Image Tag name</label>
+                <input type="text" class="form-control" id="image_tag_name" name="image_tag_name" placeholder="image_tag_name"
+                       aria-describedby="StoreImageTagNameHelp">
+                <span id="StoreImageTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item image?</span>
+            </div>
+
+            <div class="form-group">
+                <label for="image_query">Search Image Query</label>
+                <input type="text" class="form-control" id="image_query" name="image_query"
+                       aria-describedby="ImageQueryHelpBlock">
+                <span id="ImageQueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with image? Remember to use
+                double quotation marks! </span>
+            </div>
+
+            <div class="form-group">
+                <label for="description_tag_name">Description Tag name</label>
+                <input type="text" class="form-control" id="description_tag_name" name="description_tag_name" placeholder="description_tag_name"
+                       aria-describedby="DescImageTagNameHelp">
+                <span id="DescImageTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item description?</span>
+            </div>
+
+            <div class="form-group">
+                <label for="description_query">Search Description Query</label>
+                <input type="text" class="form-control" id="description_query" name="description_query"
+                       aria-describedby="DescQueryHelpBlock">
+                <span id="DescQueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with description? Remember to use
                 double quotation marks! </span>
             </div>
             <button type="submit" class="btn btn-default">Create</button>

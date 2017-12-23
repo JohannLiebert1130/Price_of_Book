@@ -5,14 +5,14 @@ import pymongo
 from src.common.database import Database
 import src.models.stores.constants as StoreConstants
 import src.models.stores.errors as StoreErrors
+from src.models.crawlers.crawler import Crawler
 
 
 class Store(object):
-    def __init__(self, name, url_prefix, tag_name, query, _id=None):
-        self.tag_name = tag_name
+    def __init__(self, name, url_prefix, crawler_id, _id=None):
         self.url_prefix = url_prefix
         self.name = name
-        self.query = query
+        self.crawler = Crawler.get_by_id(crawler_id)
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def __repr__(self):
@@ -22,9 +22,7 @@ class Store(object):
         return {
             "_id": self._id,
             "name": self.name,
-            "url_prefix": self.url_prefix,
-            "tag_name": self.tag_name,
-            "query": self.query
+            "url_prefix": self.url_prefix
         }
 
     @classmethod
@@ -69,6 +67,8 @@ class Store(object):
 
     def delete(self):
         Database.remove(StoreConstants.COLLECTION, {'_id': self._id})
+        self.crawler.delete()
+
 
 # client = pymongo.MongoClient(Database.URI)
 # Database.DATABASE = client['fullstack']

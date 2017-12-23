@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, json, session
 
+from src.models.crawlers.crawler import Crawler
 from src.models.stores.store import Store
 import src.models.users.decorators as user_decorators
 
@@ -25,10 +26,19 @@ def edit_store(store_id):
     if request.method == 'POST':
         store.name = request.form['name']
         store.url_prefix = request.form['url_prefix']
-        store.tag_name = request.form['tag_name']
-        store.query = json.loads(request.form['query'])
-        print(store.query)
+
+        store.crawler.price_tag_name = request.form['price_tag_name']
+        store.crawler.price_query = json.loads(request.form['price_query'])
+
+        store.crawler.image_tag_name = request.form['image_tag_name']
+        store.crawler.image_query = json.loads(request.form['image_query'])
+
+        store.crawler.description_tag_name = request.form['description_tag_name']
+        store.crawler.description_query = json.loads(request.form['description_query'])
+
+        # print(store.crawler.price_query)
         store.save_to_mongo()
+        store.crawler.save_to_mongo()
 
         return redirect(url_for('.index'))
 
@@ -48,10 +58,21 @@ def create_store():
     if request.method == 'POST':
         name = request.form['name']
         url_prefix = request.form['url_prefix']
-        tag_name = request.form['tag_name']
-        query = json.loads(request.form['query'])
 
-        Store(name, url_prefix, tag_name, query).save_to_mongo()
+        price_tag_name = request.form['price_tag_name']
+        price_query = json.loads(request.form['price_query'])
+
+        image_tag_name = request.form['image_tag_name']
+        image_query = json.loads(request.form['image_query'])
+
+        description_tag_name = request.form['description_tag_name']
+        description_query = json.loads(request.form['description_query'])
+
+        crawler = Crawler(price_tag_name, price_query, image_tag_name, image_query, description_tag_name,
+                          description_query)
+        crawler.save_to_mongo()
+
+        Store(name, url_prefix, crawler._id).save_to_mongo()
 
         return redirect(url_for('.index'))
 

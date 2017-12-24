@@ -65,11 +65,7 @@ def create_store():
         image_tag_name = request.form['image_tag_name']
         image_query = json.loads(request.form['image_query'])
 
-        description_tag_name = request.form['description_tag_name']
-        description_query = json.loads(request.form['description_query'])
-
-        crawler = Crawler(price_tag_name, price_query, image_tag_name, image_query, description_tag_name,
-                          description_query)
+        crawler = Crawler(price_tag_name, price_query, image_tag_name, image_query)
         crawler.save_to_mongo()
 
         Store(name, url_prefix, crawler._id).save_to_mongo()

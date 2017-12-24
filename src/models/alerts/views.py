@@ -19,7 +19,7 @@ def create_alert():
         item.save_to_mongo()
 
         alert = Alert(session['email'], price_limit, item._id)
-        alert.load_item_price()  # This already saves to MongoDB
+        alert.load_item_info()  # This already saves to MongoDB
 
     # What happens if it's a GET request
     return render_template("alerts/new_alert.jinja2")  # Send the user an error if their login was invalid

@@ -54,7 +54,7 @@ class Store(object):
         """
         try:
             for i in range(len(url) - 5, -1, -1):
-                print(url[:i])
+                #print(url[:i])
                 store = cls.get_by_url_prefix(url[:i])
                 if store is not None:
                     return store

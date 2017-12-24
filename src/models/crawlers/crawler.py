@@ -5,16 +5,12 @@ import src.models.crawlers.constants as CrawlerConstants
 
 
 class Crawler(object):
-    def __init__(self, price_tag_name, price_query, image_tag_name, image_query, description_tag_name,
-                 description_query, _id=None):
+    def __init__(self, price_tag_name, price_query, image_tag_name, image_query, _id=None):
         self.price_query = price_query
         self.price_tag_name = price_tag_name
 
         self.image_tag_name = image_tag_name
         self.image_query = image_query
-
-        self.description_tag_name = description_tag_name
-        self.description_query = description_query
 
         self._id = uuid.uuid4().hex if _id is None else _id
 
@@ -28,8 +24,6 @@ class Crawler(object):
             "price_tag_name": self.price_tag_name,
             "image_query": self.image_query,
             "image_tag_name": self.image_tag_name,
-            "description_query": self.description_query,
-            "description_tag_name": self.description_tag_name,
             "_id": self._id
         }
 

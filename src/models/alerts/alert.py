@@ -57,12 +57,11 @@ class Alert(object):
             "active": self.active
         }
 
-    def load_item_price(self):
-        self.item.load_price()
+    def load_item_info(self):
+        self.item.load_info()
         self.last_checked = datetime.datetime.utcnow()
         self.item.save_to_mongo()
         self.save_to_mongo()
-        return self.item.price
 
     def send_email_if_price_reached(self):
         if self.item.price < self.price_limit:

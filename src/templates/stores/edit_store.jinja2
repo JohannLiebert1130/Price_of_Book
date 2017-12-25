@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label for="price_tag_name">Price Tag name</label>
                 <input type="text" class="form-control" id="price_tag_name" name="price_tag_name" placeholder="price_tag_name"
-                       value="{{ store.price_tag_name }}"
+                       value="{{ store.crawler.price_tag_name }}"
                        aria-describedby="storePriceTagNameHelp">
                 <span id="storePriceTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item price? (usually <code>span</code>)</span>
             </div>
@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label for="price_query">Search Price Query</label>
                 <input type="text" class="form-control" id="price_query" name="price_query" placeholder='{"id" : "price-now"}'
-                       value='{{ store.price_query | tojson }}'
+                       value='{{ store.crawler.price_query | tojson }}'
                        aria-describedby="PriceQueryHelpBlock">
                 <span id="PriceQueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with price? Remember to use
                 double quotation marks! </span>
@@ -38,14 +38,14 @@
             <div class="form-group">
                 <label for="image_tag_name">Image Tag name</label>
                 <input type="text" class="form-control" id="image_tag_name" name="image_tag_name" placeholder="image_tag_name"
-                       value="{{ store.image_tag_name }}"
+                       value="{{ store.crawler.image_tag_name }}"
                        aria-describedby="StoreImageTagNameHelp">
                 <span id="StoreImageTagNameHelp" class="help-block">What is the HTML tag of the item that contains the item image?</span>
             </div>
 
             <div class="form-group">
                 <label for="image_query">Search Image Query</label>
-                <input type="text" class="form-control" id="image_query" name="image_query" value='{{ store.image_query | tojson }}'
+                <input type="text" class="form-control" id="image_query" name="image_query" value='{{ store.crawler.image_query | tojson }}'
                        aria-describedby="ImageQueryHelpBlock">
                 <span id="ImageQueryHelpBlock" class="help-block">What JSON query would we have to do to find the specific tag with image? Remember to use
                 double quotation marks! </span>

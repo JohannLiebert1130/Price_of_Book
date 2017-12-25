@@ -33,8 +33,6 @@ def edit_store(store_id):
         store.crawler.image_tag_name = request.form['image_tag_name']
         store.crawler.image_query = json.loads(request.form['image_query'])
 
-        store.crawler.description_tag_name = request.form['description_tag_name']
-        store.crawler.description_query = json.loads(request.form['description_query'])
 
         # print(store.crawler.price_query)
         store.save_to_mongo()
